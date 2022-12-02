@@ -4,7 +4,9 @@ const cors=require('cors')
 const app = express()
 const PORT=process.env.PORT || 3000
 const {dbConnect}=require('./config/mongo')
+const morgan=require("morgan")
 
+app.use(morgan('dev'))
 app.use(cors())
 app.use(express.json())
 app.use('/api/v1',require('./app/routes'))
