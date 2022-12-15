@@ -4,7 +4,7 @@ const itemModel =require("../models/items")
 const getItems=async (req,res)=>{
     try{
         const listAll=await itemModel.find({})
-        res.send({data:listAll})
+        res.send(listAll)
         
     }catch(e){
         httpError(res,e)
@@ -35,8 +35,7 @@ const postItems=async (req,res)=>{
             tiempo_de_ciclo,
             materia_prima
         })
-        res.send({data:resDetail,
-                 status:true})
+        res.send({resDetail})
         
     }catch(e){
         res.send({data:{},

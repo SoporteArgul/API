@@ -7,12 +7,13 @@ const validateCreate = [ //TODO:name, age, email
         .not()
         .isLength({ min: 5 })
         .isEmpty(),
+    
     check('age')
         .exists()
         .isNumeric()
         .custom((value, { req }) => {
             //TODO: 18
-            if (value < 18 || value > 40) {
+            if (value < 18 || value > 90) {
                 throw new Error('Rango de edad debe ser entre 18 y 40')
             }
             return true

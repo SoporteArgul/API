@@ -6,7 +6,9 @@ const checkRoleAuth = require('../middlewares/roleAuth')
 const { getItems, getItem, createItem, deleteItem, updateItem } = require('../controllers/users')
 const { validateCreate } = require('../validators/users')
 
-router.get('/', checkAuth, checkRoleAuth(['admin']), getItems)
+
+
+router.get('/', checkAuth, checkRoleAuth(['ADMIN']), getItems)
 
 //TODO: Donde recibimos data
 router.post('/', checkOrigin, validateCreate, createItem)
