@@ -11,10 +11,17 @@ exports.verifyUser = async (req, res, next) => {
       res.json({msg:"usuario no encontrado"})
     }else{
       user.status='Active'
-      console.log(user)
+      const expiresIn = 1000 * 60 * 60 * 60 * 24;
+      if((Date.now() - user.expires) > expiresIn) {
+          await user.remove();
+          return res.send('Su registro de usuario expiro');
+        }
       user.save()
-      res.json({msg:"Usuario activado de forma correcta!"})
-      // res.redirect('http://localhost:3001/app/v1/login')
+      res.send(`<html> <body><h1> Bienvenido ${user.name} </h1><button>Pulse aqui para ingresar!!</button></h1></body></html>`);
+      // res.json({msg:"Usuario activado de forma correcta!"})
+      
+      
+      
     }
   }catch (error) {
     console.log(error);
