@@ -28,7 +28,18 @@ const createItem = async (req, res) => {
 
 
 const updateItem = (req, res) => {
-
+    try{
+        let userId=req.params.id;
+        let update=req.body;
+        userModel.findByIdAndUpdate(userId,update,(err,userUpdated)=>{
+            if(err) res.status(500).send({'msg':`error al actualizar usuario ${err}`})
+            if(update.body)res.status(500).send({'msg':`error, no puede cambiar su email ${err}`})
+            res.status(200).send({'msg':userUpdated})
+        })
+    }
+    catch(e){
+        console.log(e)
+    }
 }
 
 const deleteItem = (req, res) => {

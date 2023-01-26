@@ -1,15 +1,16 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator');
 
-let rolesValidos = {
-    values: ["ADMIN", "USER"],
-    message: '{VALUE} no es un role válido'
-}
-
 const UserScheme = new mongoose.Schema({
     name: {
         type: String,
-        required:[true,'El nombre es requerido']
+        required:[true,'El nombre es requerido'],
+        maxLength: 50
+    },
+    surname:{
+        type:String,
+        required:[false],
+        maxLength: 50
     },
     age: {
         type: Number,
@@ -18,11 +19,13 @@ const UserScheme = new mongoose.Schema({
     email: {
         type: String,
         unique:true,
-        required:[true]
+        required:[true],
+        maxLength: 100
     },
     password: {
         type: String,
-        required:[true]
+        required:[true],
+        
     },
     status: {
         type: String, 
@@ -35,7 +38,7 @@ const UserScheme = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'USER',
+        default: 'Tecnicos',
         required: [true]
     }
     },

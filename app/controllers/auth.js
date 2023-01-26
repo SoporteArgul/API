@@ -4,6 +4,8 @@ const { tokenSign } = require('../helpers/generateToken')
 const userModel = require('../models/users')
 const { sendConfirmationEmail }=require('../services/auth.js')
 const {  validationResult } = require('express-validator');
+const multer  = require('multer')
+
 
 //Login!
 const loginCtrl = async (req, res) => {
@@ -55,25 +57,27 @@ const registerCtrl = async (req, res) => {
         }
         // Datos que envias desde el front (postman)
         const { email, password, password2, name,age,role } = req.body
-        
+        const uppercase = /[A-Z]+/;
+        const lowercase = /[a-z]+/;
+        const digit = /[0-9]+/;
+        const special = /[\W]+/;
         const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let token = '';
+        
+        console.log(req.body)
+        
         for (let i = 0; i < 25; i++) {
             token += characters[Math.floor(Math.random() * characters.length )];
         }
+            
+        // if(!uppercase(password) && !lowercase(password) && !digit(password) && !special(password) && password.length < 8) {
+        //     res.send('The password must be at least 8 characters long and contain uppercase and lowercase letters, digits and special characters.');
+        // }
 
         if (password==password2){
-            const uppercase = /[A-Z]+/;
-            const lowercase = /[a-z]+/;
-            const digit = /[0-9]+/;
-            const special = /[\W]+/;
-
-            if(!uppercase(password) && !lowercase(password) && !digit(password) && !special(password) && password.length < 8) {
-                throw new Error('The password must be at least 8 characters long and contain uppercase and lowercase letters, digits and special characters.');
-            }
-             const passwordHash = await encrypt(password) // (123456)<--- Encriptando!!
-             
-             const registerUser = await userModel.create({
+            
+            const passwordHash = await encrypt(password) 
+            const registerUser = await userModel.create({
                     email,
                     name,
                     password: passwordHash,
@@ -96,12 +100,13 @@ const registerCtrl = async (req, res) => {
              res.send({ data: registerUser,
                         info: "User was registered successfully! Please check your email"})
         }else{
-            res.send("las contrasenas no coinciden!")
+            res.status(204).send("las contrasenas no coinciden!")
         }
        
        
              
        } catch (e) {
+        console.log(e)
         httpError(res, e)
     }
 }
