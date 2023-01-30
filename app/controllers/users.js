@@ -43,7 +43,14 @@ const updateItem = (req, res) => {
 }
 
 const deleteItem = (req, res) => {
-
+    try {
+        userModel.findById(req.params.id)
+        .then(item => item.remove().then(() => res.json({ success: true })))
+        .catch(err => res.status(404).json({ success: false }));
+    }
+    catch(e) {
+        console.log(e)
+    }
 }
 
 module.exports = { getItem, getItems, deleteItem, createItem, updateItem }
