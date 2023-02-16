@@ -18,11 +18,12 @@ const ItemScheme= new mongoose.Schema({
     },
     materia_prima:{
         type:String
+    },
+    hora: {
+        type: String
     }
-
 },
 {
-    timestamps:true,
     versionKey:false
 })
 

@@ -7,14 +7,10 @@ const UserScheme = new mongoose.Schema({
         required:[true,'El nombre es requerido'],
         maxLength: 50
     },
-    surname:{
-        type:String,
-        required:[false],
-        maxLength: 50
-    },
-    age: {
-        type: Number,
-        required:[true]
+    legajo:{
+        type: String,
+        required:[true,'El legajo es requerido'],
+        maxLength: 5
     },
     email: {
         type: String,
@@ -24,8 +20,7 @@ const UserScheme = new mongoose.Schema({
     },
     password: {
         type: String,
-        required:[true],
-        
+        required:[true]
     },
     status: {
         type: String, 
@@ -40,10 +35,12 @@ const UserScheme = new mongoose.Schema({
         type: String,
         default: 'Tecnicos',
         required: [true]
+    },
+    hora: {
+        type: String
     }
     },
     {
-        timestamps: true,
         versionKey: false
     })
 

@@ -45,7 +45,7 @@ const formModel=new mongoose.Schema({
         type:String
     },
  //Dispositivos utilizados
-     pico_de_inytectora:{
+     pico_de_inyectora:{
         type:String
     },
      microgel_0:{
@@ -128,6 +128,12 @@ const formModel=new mongoose.Schema({
     },
      observaciones:{
         type:String
+    },
+    hora: {
+        type: String
     }
-})
+},
+    {
+        versionKey: false
+    })
 module.exports=mongoose.model('form',formModel)
