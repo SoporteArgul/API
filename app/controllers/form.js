@@ -2,7 +2,9 @@ const formModel=require('../models/form')
 const { httpError } = require("../helpers/handleError")
 
 const createForm= async (req,res)=>{
-    try{
+    try {
+        var today = new Date();
+        var now = today.toLocaleString();
     const {
             //informacion de la orden de produccion
             nombre_formulario,
@@ -20,7 +22,7 @@ const createForm= async (req,res)=>{
             aditivo,
             registrado_por,
             //Dispositivos utilizados
-            pico_de_inytectora,
+            pico_de_inyectora,
             microgel_0,
             microgel_1,
             regoplas,
@@ -49,7 +51,7 @@ const createForm= async (req,res)=>{
             tipo_expulsion,
             //Cavidades habilitadas en produccion
             cavidades,
-            observaciones
+        observaciones
             }=req.body
 
 
@@ -70,7 +72,7 @@ const createForm= async (req,res)=>{
             aditivo,
             registrado_por,
         //Dispositivos utilizados
-            pico_de_inytectora,
+            pico_de_inyectora,
             microgel_0,
             microgel_1,
             regoplas,
@@ -99,7 +101,8 @@ const createForm= async (req,res)=>{
             tipo_expulsion,
         //Cavidades habilitadas en produccion
             cavidades,
-            observaciones
+            observaciones,
+            hora: now
         })
         res.send(formDetail)
     }catch(e){

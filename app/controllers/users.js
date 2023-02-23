@@ -16,9 +16,9 @@ const getItem = (req, res) => {
 
 const createItem = async (req, res) => {
     try {
-        const { name, age, email } = req.body
+        const { name, legajo, email } = req.body
         const resDetail = await userModel.create({
-            name, age, email
+            name, legajo, email
         })
         res.send({ data: resDetail })
     } catch (e) {
