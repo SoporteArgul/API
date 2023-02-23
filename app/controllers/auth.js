@@ -14,11 +14,11 @@ const loginCtrl = async (req, res) => {
 
         const user = await userModel.findOne({ email })
         
-        if (user.status != "Active") {
-            return res.status(401).send({
-              message: "Pending Account. Please Verify Your Email!",
-            });
-          }
+        // if (user.status != "Active") {
+        //     return res.status(401).send({
+        //       message: "Pending Account. Please Verify Your Email!",
+        //     });
+        //   }
         if (!user) {
             res.status(404)
             res.send({ error: 'Usuario o contrasena incorrectos' })
@@ -35,13 +35,13 @@ const loginCtrl = async (req, res) => {
             return
         }
 
-        if (!checkPassword) {
-            res.status(409)
-            res.send({
-                error: 'Invalid password'
-            })
-            return
-        }
+        // if (!checkPassword) {
+        //     res.status(409)
+        //     res.send({
+        //         error: 'Invalid password'
+        //     })
+        //     return
+        // }
 
     } catch (e) {
         httpError(res, e)
@@ -86,15 +86,15 @@ const registerCtrl = async (req, res) => {
                     role
                 })
          
-                try{
-                    let confirmationCode=token 
-                    sendConfirmationEmail(
-                        name,
-                        email,
-                        confirmationCode) 
-                    }catch(e){
-                            console.log(e)
-                 }
+                // try{
+                //     let confirmationCode=token 
+                //     // sendConfirmationEmail(
+                //     //     name,
+                //     //     email,
+                //     //     confirmationCode) 
+                //     }catch(e){
+                //             console.log(e)
+                //  }
                 
       
              res.send({ data: registerUser,
