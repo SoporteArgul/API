@@ -56,7 +56,7 @@ const registerCtrl = async (req, res) => {
             return res.status(400);
         }
         // Datos que envias desde el front (postman)
-        const { email, password, password2, name,age,role } = req.body
+        const { email, password, password2, name, legajo } = req.body
         const uppercase = /[A-Z]+/;
         const lowercase = /[a-z]+/;
         const digit = /[0-9]+/;
@@ -81,9 +81,8 @@ const registerCtrl = async (req, res) => {
                     email,
                     name,
                     password: passwordHash,
-                    age,
+                    legajo,
                     confirmationCode:token,
-                    role
                 })
          
                 try{
@@ -100,7 +99,7 @@ const registerCtrl = async (req, res) => {
              res.send({ data: registerUser,
                         info: "User was registered successfully! Please check your email"})
         }else{
-            res.status(204).send("las contrasenas no coinciden!")
+            res.status(204).send("las contraseñas no coinciden!")
         }
        
        

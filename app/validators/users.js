@@ -7,16 +7,6 @@ const validateCreate = [ //TODO:name, age, email
     //     .isLength({ min: 5 })
     //     .isEmpty(),
     
-    check('age')
-        .exists()
-        .isNumeric()
-        .custom((value, { req }) => {
-            if (value < 18 || value > 90) {
-                throw new Error('Rango de edad debe ser entre 18 y 90')
-            }
-            return true
-    }),
-    
     check('email')
         .exists()
         .isEmail()
