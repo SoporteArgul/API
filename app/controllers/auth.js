@@ -3,7 +3,7 @@ const { encrypt, compare } = require('../helpers/handleBcrypt')
 const { tokenSign } = require('../helpers/generateToken')
 const userModel = require('../models/users')
 const { sendConfirmationEmail }=require('../services/auth.js')
-const {  validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const multer  = require('multer')
 
 
@@ -21,7 +21,7 @@ const loginCtrl = async (req, res) => {
         //   }
         if (!user) {
             res.status(404)
-            res.send({ error: 'Usuario o contrasena incorrectos' })
+            res.send({ error: 'Usuario o contraseña incorrectos' })
         }
 
         const checkPassword = await compare(password, user.password) 
@@ -37,7 +37,7 @@ const loginCtrl = async (req, res) => {
 
         if (!checkPassword) {
             res.status(409)
-            res.send({error: 'Usuario o Contrasena incorrectos'})
+            res.send({error: 'Usuario o Contraseña incorrectos'})
             return
         }
 
@@ -55,6 +55,11 @@ const registerCtrl = async (req, res) => {
         }
         // Datos que envias desde el front (postman)
         const { email, password, password2, name, legajo } = req.body
+        let token = '';
+        const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (let i = 0; i < 25; i++) {
+            token += characters[Math.floor(Math.random() * characters.length )];
+        }
 
         if (password==password2){
             
@@ -81,7 +86,7 @@ const registerCtrl = async (req, res) => {
              res.send({ data: registerUser,
                         info: "Usuario registrado!"})
         }else{
-            res.status(204).send("las contraseñas no coinciden!")
+            res.status(409).send("Las contraseñas no coinciden!")
         }
        
        
