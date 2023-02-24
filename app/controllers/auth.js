@@ -7,7 +7,7 @@ const {  validationResult } = require('express-validator');
 const multer  = require('multer')
 
 
-//Login!
+
 const loginCtrl = async (req, res) => {
     try {
         const { email, password } = req.body
@@ -24,10 +24,10 @@ const loginCtrl = async (req, res) => {
             res.send({ error: 'Usuario o contrasena incorrectos' })
         }
 
-        const checkPassword = await compare(password, user.password) //Contraseña!
+        const checkPassword = await compare(password, user.password) 
         const tokenSession = await tokenSign(user) 
 
-        if (checkPassword) { //TODO Contraseña es correcta!
+        if (checkPassword) { 
             res.send({
                 data: user,
                 tokenSession
@@ -35,20 +35,18 @@ const loginCtrl = async (req, res) => {
             return
         }
 
-        // if (!checkPassword) {
-        //     res.status(409)
-        //     res.send({
-        //         error: 'Invalid password'
-        //     })
-        //     return
-        // }
+        if (!checkPassword) {
+            res.status(409)
+            res.send({error: 'Usuario o Contrasena incorrectos'})
+            return
+        }
 
     } catch (e) {
         httpError(res, e)
     }
 }
 
-// Registramos usuario!
+
 const registerCtrl = async (req, res) => {
     try {
         const validationErrors = validationResult(req);
@@ -57,22 +55,6 @@ const registerCtrl = async (req, res) => {
         }
         // Datos que envias desde el front (postman)
         const { email, password, password2, name, legajo } = req.body
-        const uppercase = /[A-Z]+/;
-        const lowercase = /[a-z]+/;
-        const digit = /[0-9]+/;
-        const special = /[\W]+/;
-        const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let token = '';
-        
-        console.log(req.body)
-        
-        for (let i = 0; i < 25; i++) {
-            token += characters[Math.floor(Math.random() * characters.length )];
-        }
-            
-        // if(!uppercase(password) && !lowercase(password) && !digit(password) && !special(password) && password.length < 8) {
-        //     res.send('The password must be at least 8 characters long and contain uppercase and lowercase letters, digits and special characters.');
-        // }
 
         if (password==password2){
             
