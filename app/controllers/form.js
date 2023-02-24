@@ -104,12 +104,12 @@ const createForm= async (req,res)=>{
             observaciones,
             hora: now
         })
-        res.send(formDetail)
+        // res.send(formDetail)
+        return res.status(200).send("Formulario enviado con exito!")
     }catch(e){
         res.send({data:{},
         status:false}),
         httpError(res,e)
-
     }
 
 }

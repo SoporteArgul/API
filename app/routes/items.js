@@ -5,7 +5,7 @@ const checkOrigin = require('../middlewares/origin')
 const checkAuth=require("../middlewares/auth")
 const checkRoleAuth=require("../middlewares/roleAuth")
 
-router.get('/',checkAuth, checkRoleAuth(['ADMINS']),getItems)
+router.get('/',checkAuth, checkRoleAuth(['ADMINS','Tecnicos']),getItems)
 
 router.get('/:id',checkOrigin,getItemsById)
 

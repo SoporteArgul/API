@@ -97,7 +97,7 @@ const registerCtrl = async (req, res) => {
                 
       
              res.send({ data: registerUser,
-                        info: "User was registered successfully! Please check your email"})
+                        info: "Usuario registrado!"})
         }else{
             res.status(204).send("las contraseñas no coinciden!")
         }

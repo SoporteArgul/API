@@ -32,8 +32,8 @@ const updateItem = (req, res) => {
         let userId=req.params.id;
         let update=req.body;
         userModel.findByIdAndUpdate(userId,update,(err,userUpdated)=>{
-            if(err) res.status(500).send({'msg':`error al actualizar usuario ${err}`})
-            if(update.body)res.status(500).send({'msg':`error, no puede cambiar su email ${err}`})
+            if(err) res.status(500).send({'msg':`Error al actualizar usuario ${err}`})
+            if(update.body)res.status(500).send({'msg':`Error, no puede cambiar su email ${err}`})
             res.status(200).send({'msg':userUpdated})
         })
     }

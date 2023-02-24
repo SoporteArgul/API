@@ -6,8 +6,8 @@ const checkRoleAuth = require('../middlewares/roleAuth')
 const router= express.Router()
 
 
-router.post('/',createForm)
-router.get('/',checkAuth,checkRoleAuth(['ADMINS']),getForm)
-router.get('/',checkAuth,checkRoleAuth(['ADMINS']),getFormById)
+router.post('/',checkAuth,checkRoleAuth(['ADMINS','Tecnicos']),createForm)
+router.get('/',checkAuth,checkRoleAuth(['ADMINS','Tecnicos']),getForm)
+router.get('/',checkAuth,checkRoleAuth(['ADMINS','Tecnicos']),getFormById)
 
 module.exports=router
