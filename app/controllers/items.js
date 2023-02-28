@@ -23,7 +23,8 @@ const postItems=async (req,res)=>{
                numero_de_inyectora,
                numero_de_molde,
                tiempo_de_ciclo,
-               materia_prima }=req.body
+               materia_prima,
+               descripcion_material }=req.body
 
         console.log(req.body)
 
@@ -33,7 +34,8 @@ const postItems=async (req,res)=>{
             numero_de_inyectora,
             numero_de_molde,
             tiempo_de_ciclo,
-            materia_prima
+            materia_prima,
+            descripcion_material
         })
         res.send({resDetail})
         

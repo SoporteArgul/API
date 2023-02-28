@@ -114,6 +114,27 @@ const createForm= async (req,res)=>{
 
 }
 
+const getFilter= async (req,res)=>{
+    try{
+    let match={}
+    const keyword=req.query.keyword
+    
+    if (req.query.keyword){
+        match.$or=[
+            {materia_prima0:new RegExp(req.query.keyword,"i")},
+            {materia_prima1:new RegExp(req.query.keyword,"i")},
+            {materia_prima2:new RegExp(req.query.keyword,"i")},
+            {materia_prima3:new RegExp(req.query.keyword,"i")},
+            {materia_prima4:new RegExp(req.query.keyword,"i")},
+            {materia_prima5:new RegExp(req.query.keyword,"i")}, 
+        ]
+        
+    }
+    const response=await formModel.aggregate([{$match:match}])
+    res.send(response)
+    }catch(e){}
+}
+
 const getForm= async (req,res)=>{
     try{
         const listAll=await formModel.find({})
@@ -135,4 +156,4 @@ const getFormById=async (req,res)=>{
     }
 }
 
-module.exports={createForm,getForm,getFormById}
+module.exports={createForm,getForm,getFormById,getFilter}

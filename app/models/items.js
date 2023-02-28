@@ -19,6 +19,9 @@ const ItemScheme= new mongoose.Schema({
     materia_prima:{
         type:String
     },
+    descripcion_material:{
+        type:String
+    },
     hora: {
         type: String
     }

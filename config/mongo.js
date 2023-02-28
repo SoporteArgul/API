@@ -14,6 +14,7 @@ const dbConnect=()=>{
             console.log('ERROR DE CONEXION')
         }
     })
+    mongoose.set('strictQuery', true)
 }
 
 module.exports={dbConnect}
