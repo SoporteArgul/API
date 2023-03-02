@@ -165,7 +165,7 @@ const updateForm = async (req, res) => {
     
     var today = new Date();
     var now = today.toLocaleString();
-    
+    const id=req.params.id
     const {
         //informacion de la orden de produccion
         nombre_formulario,
@@ -215,7 +215,7 @@ const updateForm = async (req, res) => {
         observaciones
     } = req.body
     
-    update = await formModel.findByIdAndUpdate({
+    update = await formModel.findByIdAndUpdate(id,{
         //informacion de la orden de produccion
         nombre_formulario,
         numero_operacion,
@@ -261,7 +261,8 @@ const updateForm = async (req, res) => {
         tipo_expulsion,
         //Cavidades habilitadas en produccion
         cavidades,
-        observaciones
+        observaciones,
+        hora:now
     })
     
 }catch(e){
