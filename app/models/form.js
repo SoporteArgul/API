@@ -5,6 +5,9 @@ const formModel=new mongoose.Schema({
     nombre_formulario:{
         type:String
     },
+    numero_de_lote:{
+        type:String
+    },
     numero_operacion:{
         type:String
     },
