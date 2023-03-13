@@ -1,111 +1,68 @@
 const formModel = require('../models/form')
 const { httpError } = require("../helpers/handleError");
 const { findByIdAndDelete } = require('../models/form');
+const multer=require('multer')
+const sharp = require('sharp');
+const QrCode=require('qrcode')
+
 
 const createForm = async (req, res) => {
     try {
         var today = new Date();
         var now = today.toLocaleString();
         const {
+            //informacion del archivo almacenado
+            comentario,
             //informacion de la orden de produccion
-            nombre_formulario,
-            numero_operacion,
-            numero_producto,
-            materia_prima0,
-            materia_prima1,
-            materia_prima2,
-            materia_prima3,
-            materia_prima4,
-            materia_prima5,
-            numero_inyectora,
-            numero_molde,
-            tiempo_ciclo,
-            aditivo,
-            registrado_por,
+            numero_de_lote,numero_operacion,codigo_producto,materia_prima0,materia_prima1,materia_prima2,materia_prima3,materia_prima4,materia_prima5,numero_inyectora,numero_molde,tiempo_ciclo,aditivo,registrado_por,
             //Dispositivos utilizados
-            pico_de_inyectora,
-            microgel_0,
-            microgel_1,
-            regoplas,
-            robot,
-            otro,
+            pico_de_inyectora,microgel_0,microgel_1,regoplas,robot,otro,
             //Temperaturas del proceso
-            temp_plato_fijo,
-            temp_plato_movil,
-            temp_masa_fundida,
-            tablero_colada_caliente,
-            temp_horno,
+            temp_plato_fijo,temp_plato_movil,temp_masa_fundida,tablero_colada_caliente,temp_horno,
             //Parametros del proceso
-            tpo_ciclo_optimo,
-            tpo_ciclo_actual,
-            tpo_inyeccion,
-            tpo_extrusor,
-            tpo_enfriamiento,
-            cojin,
-            pico_presion,
-            punto_transferencia,
-            fuerza_cierre,
-            tamano_dosific,
-            contrapresion,
-            presion_empaque,
-            tpo_retencion,
-            tipo_expulsion,
+            tpo_ciclo_optimo,tpo_ciclo_actual,tpo_inyeccion,tpo_extrusor,tpo_enfriamiento,cojin,pico_presion,punto_transferencia,fuerza_cierre,tamano_dosific,contrapresion,presion_empaque,tpo_retencion,tipo_expulsion,
             //Cavidades habilitadas en produccion
-            cavidades,
-            observaciones
+            cavidades,observaciones
         } = req.body
-
-
-        const formDetail = await formModel.create({
+        
+        console.log(req.body)
+        // const nameId=numero_producto.concat('.',numero_inyectora,'.','00000001')
+        // console.log(nameId)
+        // const qrText = `https://argul-test:3001/app/v1/form/${nameId}`
+        // console.log(qrText)
+        // const options = {
+        //     margin:2,
+        //     small:true
+           
+        //   };
+        // await QrCode.toDataURL(qrText,options ,(err, url) => {
+            
+        //     if (err) throw err;
+        //     sharp(Buffer.from(url.split(',')[1], 'base64'))
+        //     .toBuffer((err, buffer) => {
+        //         if (err) throw err;
+        //         const base64 = buffer.toString('base64')
+        
+       
+        nombre=numero_molde.concat(codigo_producto,numero_de_lote)
+        url=`http://argul-test:3001/app/v1/${nombre}`
+        console.log(nombre)
+        const formDetail =  formModel.create({
+            //informacion del achivo almacenado
+            nombre_archivo:nombre,comentario,fecha_y_hora:now,
             //informacion de la orden de produccion
-            nombre_formulario,
-            numero_operacion,
-            numero_producto,
-            materia_prima0,
-            materia_prima1,
-            materia_prima2,
-            materia_prima3,
-            materia_prima4,
-            materia_prima5,
-            numero_inyectora,
-            numero_molde,
-            tiempo_ciclo,
-            aditivo,
-            registrado_por,
+            numero_de_lote,numero_operacion,codigo_producto,materia_prima0,materia_prima1,materia_prima2,materia_prima3,materia_prima4,materia_prima5,numero_inyectora,numero_molde,tiempo_ciclo,aditivo,registrado_por,
             //Dispositivos utilizados
-            pico_de_inyectora,
-            microgel_0,
-            microgel_1,
-            regoplas,
-            robot,
-            otro,
+            pico_de_inyectora,microgel_0,microgel_1,regoplas,robot,otro,
             //Temperaturas del proceso
-            temp_plato_fijo,
-            temp_plato_movil,
-            temp_masa_fundida,
-            tablero_colada_caliente,
-            temp_horno,
+            temp_plato_fijo,temp_plato_movil,temp_masa_fundida,tablero_colada_caliente,temp_horno,
             //Parametros del proceso
-            tpo_ciclo_optimo,
-            tpo_ciclo_actual,
-            tpo_inyeccion,
-            tpo_extrusor,
-            tpo_enfriamiento,
-            cojin,
-            pico_presion,
-            punto_transferencia,
-            fuerza_cierre,
-            tamano_dosific,
-            contrapresion,
-            presion_empaque,
-            tpo_retencion,
-            tipo_expulsion,
+            tpo_ciclo_optimo,tpo_ciclo_actual,tpo_inyeccion,tpo_extrusor,tpo_enfriamiento,cojin,pico_presion,punto_transferencia,fuerza_cierre,tamano_dosific,contrapresion,presion_empaque,tpo_retencion,tipo_expulsion,
             //Cavidades habilitadas en produccion
-            cavidades,
-            observaciones,
-            hora: now
+            cavidades,observaciones,image:"1",url:url
         })
-        // res.send(formDetail)
+    // })})
+
         return res.status(200).send("Formulario enviado con exito!")
     } catch (e) {
         res.send({
@@ -150,9 +107,9 @@ const getForm = async (req, res) => {
 
 const getFormById = async (req, res) => {
     try {
-        const nombre_formulario = req.body
-        const listOne = await formModel.findOne({
-            nombre_formulario
+        const id= req.params.id
+        const listOne = await formModel.findById({
+           _id:id
         })
         res.send(listOne)
     } catch (e) {
@@ -160,115 +117,19 @@ const getFormById = async (req, res) => {
     }
 }
 
-const updateForm = async (req, res) => {
+const updateForm = (req, res) => {
     try{
-    
-    var today = new Date();
-    var now = today.toLocaleString();
- 
-    const {
-        //informacion de la orden de produccion
-        _id,
-        nombre_formulario,
-        numero_operacion,
-        numero_producto,
-        materia_prima0,
-        materia_prima1,
-        materia_prima2,
-        materia_prima3,
-        materia_prima4,
-        materia_prima5,
-        numero_inyectora,
-        numero_molde,
-        tiempo_ciclo,
-        aditivo,
-        registrado_por,
-        //Dispositivos utilizados
-        pico_de_inyectora,
-        microgel_0,
-        microgel_1,
-        regoplas,
-        robot,
-        otro,
-        //Temperaturas del proceso
-        temp_plato_fijo,
-        temp_plato_movil,
-        temp_masa_fundida,
-        tablero_colada_caliente,
-        temp_horno,
-        //Parametros del proceso
-        tpo_ciclo_optimo,
-        tpo_ciclo_actual,
-        tpo_inyeccion,
-        tpo_extrusor,
-        tpo_enfriamiento,
-        cojin,
-        pico_presion,
-        punto_transferencia,
-        fuerza_cierre,
-        tamano_dosific,
-        contrapresion,
-        presion_empaque,
-        tpo_retencion,
-        tipo_expulsion,
-        //Cavidades habilitadas en produccion
-        cavidades,
-        observaciones
-    } = req.body
-    
-    update = await formModel.updateOne(
-        {_id:_id},
-        {$set:{//informacion de la orden de produccion
-            nombre_formulario,
-            numero_operacion,
-            numero_producto,
-            materia_prima0,
-            materia_prima1,
-            materia_prima2,
-            materia_prima3,
-            materia_prima4,
-            materia_prima5,
-            numero_inyectora,
-            numero_molde,
-            tiempo_ciclo,
-            aditivo,
-            registrado_por,
-            //Dispositivos utilizados
-            pico_de_inyectora,
-            microgel_0,
-            microgel_1,
-            regoplas,
-            robot,
-            otro,
-            //Temperaturas del proceso
-            temp_plato_fijo,
-            temp_plato_movil,
-            temp_masa_fundida,
-            tablero_colada_caliente,
-            temp_horno,
-            //Parametros del proceso
-            tpo_ciclo_optimo,
-            tpo_ciclo_actual,
-            tpo_inyeccion,
-            tpo_extrusor,
-            tpo_enfriamiento,
-            cojin,
-            pico_presion,
-            punto_transferencia,
-            fuerza_cierre,
-            tamano_dosific,
-            contrapresion,
-            presion_empaque,
-            tpo_retencion,
-            tipo_expulsion,
-            //Cavidades habilitadas en produccion
-            cavidades,
-            observaciones} })
-    
-}catch(e){
-        httpError(res, e)
+        let formId=req.params.id;
+        let update=req.body;
+        formModel.findByIdAndUpdate(formId,update,(err,formUpdated)=>{
+            if(err) res.status(500).send({'msg':`Error al actualizar formulario ${err}`})
+            if(update.body)res.status(500).send({'msg':`Error, no se pudo actualizar los cambios ${err}`})
+            res.status(200).send({'msg':formUpdated})
+        })
     }
-    
+    catch(e){
+        console.log(e)
+    }
 }
 
 const deleteForm= async (req,res)=>{
